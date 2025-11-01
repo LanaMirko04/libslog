@@ -7,7 +7,7 @@ verbosity levels, and support for logging to both stdout and a file.
 
 ## Installation
 ```shell
-$ git clone https://github.com/LanaMirko04/slog.git
+$ git clone https://github.com/LanaMirko04/libslog.git
 $ cd slog
 $ make
 $ sudo make install
