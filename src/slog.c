@@ -1,25 +1,26 @@
 /**
- * @file slog.c
- * @date 2023-05-30
- * @author Mirko Lana [lana.mirko@icloud.com]
- * @brief SLog (Sh*tty Logging) library.
+ * \file            slog.h
+ * \date            2023-05-30
+ * \author          Mirko Lana [lana.mirko@icloud.com]
+ *
+ * \brief           SLog (Sh*tty Logging) library.
  */
 
 #include "slog.h"
 
+#include <pthread.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
 #include <unistd.h>
-#include <pthread.h>
 
 static uint8_t slog_lv;
 static pthread_mutex_t slog_mtx;
-FILE *_slog_file;
+FILE *slog_file;
 
-static char *slog_clear_fmt(const char *fmt) {
+static char *prv_slog_clear_fmt(const char *fmt) {
     char *new_fmt = calloc(strlen(fmt) + 1, 1);
     if (NULL == new_fmt) {
         return NULL;
@@ -39,12 +40,12 @@ static char *slog_clear_fmt(const char *fmt) {
     return new_fmt;
 }
 
-static int slog_log_impl(FILE *os, const char *fmt, va_list args) {
+static int prv_slog_log_impl(FILE *os, const char *fmt, va_list args) {
     pthread_mutex_lock(&slog_mtx);
 
     int ret;
     if (!isatty(fileno(os))) {
-        char *new_fmt = slog_clear_fmt(fmt);
+        char *new_fmt = prv_slog_clear_fmt(fmt);
         ret = vfprintf(os, new_fmt, args);
         free(new_fmt);
     } else {
@@ -57,7 +58,7 @@ static int slog_log_impl(FILE *os, const char *fmt, va_list args) {
 }
 
 void slog_init(uint8_t lv) {
-    _slog_file = NULL;
+    slog_file = NULL;
     slog_lv = lv;
 }
 
@@ -66,12 +67,12 @@ int slog_open_file(const char *filepath) {
         return ERR;
     }
 
-    if (_slog_file) {
+    if (slog_file) {
         return ERR;
     }
 
-    _slog_file = fopen(filepath, "a");
-    if (NULL == _slog_file) {
+    slog_file = fopen(filepath, "a");
+    if (NULL == slog_file) {
         return ERR;
     }
 
@@ -79,13 +80,13 @@ int slog_open_file(const char *filepath) {
 }
 
 void slog_close_file(void) {
-    if (NULL != _slog_file) {
-        fclose(_slog_file);
-        _slog_file = NULL;
+    if (NULL != slog_file) {
+        fclose(slog_file);
+        slog_file = NULL;
     }
 }
 
-int _slog_log(slog_level_t lv, FILE *os, const char *fmt, ...) {
+int int_slog_log(enum SlogLevel lv, FILE *os, const char *fmt, ...) {
     if (!(slog_lv & lv) || (NULL == os)) {
         return OK;
     }
@@ -93,14 +94,14 @@ int _slog_log(slog_level_t lv, FILE *os, const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
-    int ret = slog_log_impl(os, fmt, args);
+    int ret = prv_slog_log_impl(os, fmt, args);
 
     va_end(args);
 
     return ret;
 }
 
-int _slog_log_all(slog_level_t lv, const char *fmt, ...) {
+int int_slog_log_all(enum SlogLevel lv, const char *fmt, ...) {
     if (!(slog_lv & lv)) {
         return OK;
     }
@@ -108,18 +109,18 @@ int _slog_log_all(slog_level_t lv, const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
-    int ret = slog_log_impl((LV_ERROR == lv) ? stderr : stdout, fmt, args);
+    int ret = prv_slog_log_impl((LV_ERROR == lv) ? stderr : stdout, fmt, args);
     if (ERR == ret) {
         va_end(args);
         return ERR;
     }
 
-    if (NULL == _slog_file) {
+    if (NULL == slog_file) {
         va_end(args);
         return ret;
     }
 
-    ret = slog_log_impl(_slog_file, fmt, args);
+    ret = prv_slog_log_impl(slog_file, fmt, args);
     if (ERR == ret) {
         va_end(args);
         return ERR;
@@ -130,13 +131,13 @@ int _slog_log_all(slog_level_t lv, const char *fmt, ...) {
     return ret;
 }
 
-char *_slog_get_time(void) {
-    static char time_buff[_SLOG_TIME_BUFF_SIZE];
+char *int_slog_get_time(void) {
+    static char time_buff[SLOG_TIME_BUFF_SIZE];
     time_t now = time(NULL);
     struct tm *ltime = localtime(&now);
 
-    bzero(time_buff, _SLOG_TIME_BUFF_SIZE);
-    strftime(time_buff, _SLOG_TIME_BUFF_SIZE, "%Y-%m-%d %H:%M:%S", ltime);
+    bzero(time_buff, SLOG_TIME_BUFF_SIZE);
+    strftime(time_buff, SLOG_TIME_BUFF_SIZE, "%Y-%m-%d %H:%M:%S", ltime);
 
     return time_buff;
 }
