@@ -53,3 +53,7 @@ dkms.conf
 
 # macOS Directories
 .DS_Store/
+
+# Clang files
+compile_flags.txt
+.clang-format
