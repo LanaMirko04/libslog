@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -std=c11 -Wall -Wextra -Werror -pedantic -O2 -MMD -MP -Iinclude
+CFLAGS := -std=gnu11 -Wall -Wextra -Werror -pedantic -O2 -MMD -MP -Iinclude
 LDFLAGS :=
 
 SRC_DIR := src
@@ -33,35 +33,40 @@ $(BUILD_DIR):
 	@mkdir -p $@
 
 $(TARGET): $(OBJECTS)
-	ar rcs $@ $^
+	@printf "$(BLUE)>>>$(RESET) Archiving $(LIB_NAME)...\n"
+	@ar rcs $@ $^ && printf "$(GREEN)Build successful!$(RESET)\n" || (printf "$(RED)Build failed!$(RESET)\n" && exit 1)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@printf "$(BLUE)>>>$(RESET) Compiling $<...\n"
+	@$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -rf $(BUILD_DIR)
+	@printf "$(BLUE)>>>$(RESET) Cleaning build artifacts...\n"
+	@rm -rf $(BUILD_DIR)
 
 install: $(TARGET)
-	@echo "Installing $(LIB_NAME) to $(INSTALL_LIB_PATH)"
-	install -d $(INSTALL_LIB_PATH)
-	install -m 0755 $(TARGET) $(INSTALL_LIB_PATH)/$(LIB_NAME)
-	@echo "Installing headers to $(INSTALL_INC_PATH)"
-	install -d $(INSTALL_INC_PATH)
-	install -m 0644 include/*.h $(INSTALL_INC_PATH)
+	@printf "$(BLUE)>>>$(RESET) Installing $(LIB_NAME) to $(INSTALL_LIB_PATH)\n"
+	@install -d $(INSTALL_LIB_PATH)
+	@install -m 0755 $(TARGET) $(INSTALL_LIB_PATH)/$(LIB_NAME)
+	@printf "$(BLUE)>>>$(RESET) Installing headers to $(INSTALL_INC_PATH)\n"
+	@install -d $(INSTALL_INC_PATH)
+	@install -m 0644 include/*.h $(INSTALL_INC_PATH)
+	@printf "$(GREEN)Installation complete!$(RESET)\n"
 
 uninstall:
-	@echo "Removing $(LIB_NAME) from $(INSTALL_LIB_PATH)"
-	rm -f $(INSTALL_LIB_PATH)/$(LIB_NAME)
-	@echo "Removing headers from $(INSTALL_INC_PATH)"
-	rm -f $(INSTALL_INC_PATH)/*.h
-	rmdir --ignore-fail-on-non-empty $(INSTALL_INC_PATH)
+	@printf "$(BLUE)>>>$(RESET) Removing $(LIB_NAME) from $(INSTALL_LIB_PATH)\n"
+	@rm -f $(INSTALL_LIB_PATH)/$(LIB_NAME)
+	@printf "$(BLUE)>>>$(RESET) Removing headers from $(INSTALL_INC_PATH)\n"
+	@rm -f $(INSTALL_INC_PATH)/*.h
+	@rmdir --ignore-fail-on-non-empty $(INSTALL_INC_PATH)
+	@printf "$(GREEN)Uninstallation complete!$(RESET)\n"
 
 help:
-	@echo ""
-	@echo "$(YELLOW)Available targets:$(RESET)"
-	@echo "  $(GREEN)make$(RESET)           - Build the library"
-	@echo "  $(GREEN)make install$(RESET)   - Install library and headers system-wide"
-	@echo "  $(GREEN)make uninstall$(RESET) - Remove installed files"
-	@echo "  $(GREEN)make clean$(RESET)     - Remove build artifacts"
-	@echo "  $(GREEN)make help$(RESET)      - Show this help message"
-	@echo ""
+	@printf "\n"
+	@printf "$(YELLOW)Available targets:$(RESET)\n"
+	@printf "  $(GREEN)make$(RESET)           - Build the library\n"
+	@printf "  $(GREEN)make install$(RESET)   - Install library and headers system-wide\n"
+	@printf "  $(GREEN)make uninstall$(RESET) - Remove installed files\n"
+	@printf "  $(GREEN)make clean$(RESET)     - Remove build artifacts\n"
+	@printf "  $(GREEN)make help$(RESET)      - Show this help message\n"
+	@printf "\n"
