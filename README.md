@@ -1,13 +1,18 @@
 # SLog (Sh*tty Logging)
 
+>! NOTE
+> SLog is currently working on *Nix systems (Linux, macOS).
+
 **SLog** is a minimal C logging library with color-coded output, multiple
-verbosity levels, and support for logging to both stdout and a file.
+verbosity levels, and support for logging to stdout, stderr, files, and custom
+destinations.
 
 ![SLog demo gif](./assets/gifs/demo.gif)
 
 ## Installation
 ```shell
 $ git clone https://github.com/LanaMirko04/libslog.git
+$ git checkout v2.x.x # replace with the latest version
 $ cd slog
 $ make
 $ sudo make install
@@ -28,20 +33,23 @@ Copy files in src directory to your project
 ```
 
 ## Usage
-Here's a simple example of how to use `SLog` in your library:
+Include the SLog header in your C source file:
 
 ```c
-#include "slog.h"
+#include <slog.h>
 
-int main(void) {
-    slog_init(LV_ALL);
-
-    slog_info("Informationl message");
-    slog_error("Error message");
-    slog_warn("Warning message");
-    slog_debug("Debug message");
-
-    return OK;
+int main() {
+    struct SlogConfig config = {
+        .default_logger = SLOG_INIT_DEFAULT_LOGGER,
+        .enter_cs = NULL,
+        .exit_cs = NULL,
+    };
+    slog_init(&config);
+    
+    /*! Print and informational message */
+    SLOG_INFO("Hello, SLog!");
+    
+    return 0;
 }
 ```
 
@@ -49,8 +57,4 @@ int main(void) {
 For detailed information about the API, see [API.md](./docs/API.md).
 
 ## License
-SLog is licensed under the [MIT](LICENSE) License. Use at your own risk.
-It’s called *SLog* for a reason.
-
-## Acknowledgements
-- [VHS](https://github.com/charmbracelet/vhs)
+SLog is licensed under the [MIT](LICENSE) License.

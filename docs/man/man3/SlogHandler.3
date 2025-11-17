@@ -1,0 +1,42 @@
+.TH "SlogHandler" 3 "Version v2.0.0" "SLog - Sh*tty Logging" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SlogHandler \- Internal SLog handler structure\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "struct \fBSlogger\fP \fBdefault_logger\fP"
+.br
+.ti -1c
+.RI "enum \fBSlogLevel\fP \fBemit_level\fP"
+.br
+.ti -1c
+.RI "void(* \fBenter_cs\fP )(void)"
+.br
+.ti -1c
+.RI "void(* \fBexit_cs\fP )(void)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Internal SLog handler structure\&. 
+.SH "Field Documentation"
+.PP 
+.SS "struct \fBSlogger\fP SlogHandler::default_logger"
+Default logger instance\&. 
+.SS "enum \fBSlogLevel\fP SlogHandler::emit_level"
+Current emit log level\&. 
+.SS "void(* SlogHandler::enter_cs) (void)"
+Enter critical section function pointer\&. 
+.SS "void(* SlogHandler::exit_cs) (void)"
+Exit critical section function pointer\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLog - Sh*tty Logging from the source code\&.

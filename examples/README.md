@@ -17,37 +17,28 @@ $ gcc demo.c -o demo -lslog
 $ ./demo demo.log
 ```
 
-### Console-only Logs
-To compile and run the console-only logging example:
-
-**Without debug logs**
+### Basic Example
+To run the basic example:
 
 ```sh
-$ gcc log_on_console.c -o log_on_console -lslog
-$ ./log_on_console
+$ gcc basic_example.c -o basic_example -lslog
+$ ./basic_example basic_log.log
 ```
 
-**With debug log**
-
-```
-$ gcc log_on_console.c -o log_on_console -lslog -DDEBUG
-$ ./log_on_console
-```
-### File-only Logs
-To compile and run the file-only logging example:
-
-**Without debug logs**
+### File Logging Example
+To run the file logging example:
 
 ```sh
-$ gcc log_on_file.c -o log_on_file -lslog
-$ ./log_on_file file.log
+$ gcc file_logging_example.c -o file_logging_example -lslog
+$ ./file_logging_example file_log.log
 ```
 
-**With debug log**
+### Multi-threaded Example (*Nix only)
+To run the multi-threaded example:
 
-```
-$ gcc log_on_file.c -o log_on_file -lslog -DDEBUG
-$ ./log_on_file file.log
+```sh
+$ gcc multi_threaded_example.c -o multi_threaded_example -lslog -lpthread
+$ ./multi_threaded_example mt_log.log
 ```
 
 ## Notes
