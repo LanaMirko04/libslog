@@ -1,5 +1,5 @@
 /**
- * \file            slog.h
+ * \file            slog.c
  * \date            2023-05-30
  * \author          Mirko Lana [lana.mirko@icloud.com]
  *
@@ -9,9 +9,7 @@
 #include "slog.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdio.h>
 #include <stdarg.h>
-#include <string.h>
 #include <stdbool.h>
 
 /*!
@@ -24,13 +22,13 @@ struct SlogHandler {
     void (*exit_cs)(void);         /*!< Exit critical section function pointer. */
 };
 
-static const char *SLOG_LEVEL_COLOR_CODES[SLOG_LEVEL_ALL] = {
+static const char *SLOG_LEVEL_COLOR_CODES[] = {
     SLOG_ANSI_GREEN,
     SLOG_ANSI_RED,
     SLOG_ANSI_YELLOW,
     SLOG_ANSI_CYAN,
 }; /*!< Color codes for each log level. */
-static const char *SLOG_LEVEL_STRINGS[SLOG_LEVEL_ALL] = {
+static const char *SLOG_LEVEL_STRINGS[] = {
     "INFO",
     "ERROR",
     "WARN",
@@ -89,7 +87,7 @@ enum SlogReturnCode int_slog_default_flush(const void *ctx) {
 enum SlogReturnCode int_slog_emit(const struct Slogger *logger, enum SlogLevel lv, const char *fmt, ...) {
     static char buffer[SLOG_EMIT_BUFFER_SIZE];
 
-    if (!logger || !fmt) {
+    if (!logger || !fmt || lv == SLOG_LEVEL_ALL || lv == SLOG_LEVEL_NONE) {
         return SLOG_RC_INVALID_ARG;
     }
 
@@ -119,7 +117,7 @@ enum SlogReturnCode int_slog_emit(const struct Slogger *logger, enum SlogLevel l
                  SLOG_EMIT_BUFFER_SIZE,
                  "%s [%s]",
                  prv_slog_get_curr_time_str(),
-                 SLOG_LEVEL_STRINGS[lv]);
+                 SLOG_LEVEL_STRINGS[__builtin_ctz(lv)]);
     }
     vsnprintf(buffer + strlen(buffer), SLOG_EMIT_BUFFER_SIZE - strlen(buffer), fmt, args);
 
@@ -149,8 +147,9 @@ enum SlogReturnCode slog_set_default_logger(const struct Slogger *logger, struct
         return SLOG_RC_INVALID_ARG;
     }
 
-    if (old_logger)
+    if (old_logger) {
         *old_logger = slog.default_logger;
+    }
 
     slog.default_logger = *logger;
 
@@ -167,9 +166,10 @@ enum SlogLevel slog_get_emit_level(void) {
 
 #endif /*! SLOG_DISABLE_LOGGING_SYSTEM */
 
-const char *slog_level_to_string(enum SlogLevel lv) {
-    if (!lv)
+const char *slog_level_to_str(enum SlogLevel lv) {
+    if (!lv) {
         return "";
+    }
 
     int idx = __builtin_ctz(lv);
     return idx >= __builtin_ctz(SLOG_LEVEL_ALL) ? "" : SLOG_LEVEL_STRINGS[idx];

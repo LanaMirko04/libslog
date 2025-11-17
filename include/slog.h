@@ -168,7 +168,6 @@ extern "C" {
  * \param[in]       fmt: Format string.
  * \param[in]       ...: Variable arguments.
  * \return          SLOG_RC_OK on success, otherwise an error code.
- *                   - SLOG_RC_INVALID_ARG: If logger or fmt is NULL.
  */
 enum SlogReturnCode int_slog_default_write(const void *ctx, const char *fmt, ...);
 
@@ -224,11 +223,11 @@ enum SlogLevel slog_get_emit_level(void);
 
 #else /*! SLOG_DISABLE_LOGGING_SYSTEM */
 
-#define SLOG_INFO(fmt, ...) (NULL)
-#define SLOG_ERROR(fmt, ...) (NULL)
-#define SLOG_WARN(fmt, ...) (NULL)
-#define SLOG_DEBUG(fmt, ...) (NULL)
-#define SLOG_EMIT(logger, lv, fmt, ...) (NULL)
+#define SLOG_INFO(fmt, ...) (SLOG_RC_OK)
+#define SLOG_ERROR(fmt, ...) (SLOG_RC_OK)
+#define SLOG_WARN(fmt, ...) (SLOG_RC_OK)
+#define SLOG_DEBUG(fmt, ...) (SLOG_RC_OK)
+#define SLOG_EMIT(logger, lv, fmt, ...) (SLOG_RC_OK)
 #define int_slog_default_write(ctx, fmt, ...) (SLOG_RC_OK)
 #define int_slog_default_flush(ctx) (SLOG_RC_OK)
 #define int_slog_emit(logger, level, fmt, ...) (SLOG_RC_OK)

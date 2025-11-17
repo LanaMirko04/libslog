@@ -50,14 +50,14 @@ install: $(TARGET)
 	@install -m 0755 $(TARGET) $(INSTALL_LIB_PATH)/$(LIB_NAME)
 	@printf "$(BLUE)>>>$(RESET) Installing headers to $(INSTALL_INC_PATH)\n"
 	@install -d $(INSTALL_INC_PATH)
-	@install -m 0644 include/*.h $(INSTALL_INC_PATH)
+	@install -m 0644 include/slog.h $(INSTALL_INC_PATH)
 	@printf "$(GREEN)Installation complete!$(RESET)\n"
 
 uninstall:
 	@printf "$(BLUE)>>>$(RESET) Removing $(LIB_NAME) from $(INSTALL_LIB_PATH)\n"
 	@rm -f $(INSTALL_LIB_PATH)/$(LIB_NAME)
 	@printf "$(BLUE)>>>$(RESET) Removing headers from $(INSTALL_INC_PATH)\n"
-	@rm -f $(INSTALL_INC_PATH)/*.h
+	@rm -f $(INSTALL_INC_PATH)/slog.h
 	@rmdir --ignore-fail-on-non-empty $(INSTALL_INC_PATH)
 	@printf "$(GREEN)Uninstallation complete!$(RESET)\n"
 
