@@ -1,0 +1,39 @@
+.TH "SlogConfig" 3 "Version v2.0.0" "SLog - Sh*tty Logging" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SlogConfig \- Configuration structure for initializing the SLog system\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <slog\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "struct \fBSlogger\fP \fBdefault_logger\fP"
+.br
+.ti -1c
+.RI "void(* \fBenter_cs\fP )(void)"
+.br
+.ti -1c
+.RI "void(* \fBexit_cs\fP )(void)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Configuration structure for initializing the SLog system\&. 
+.SH "Field Documentation"
+.PP 
+.SS "struct \fBSlogger\fP SlogConfig::default_logger"
+Default logger configuration\&. 
+.SS "void(* SlogConfig::enter_cs) (void)"
+Function pointer to enter critical section\&. 
+.SS "void(* SlogConfig::exit_cs) (void)"
+Function pointer to exit critical section\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLog - Sh*tty Logging from the source code\&.
