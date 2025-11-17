@@ -1,6 +1,6 @@
 # SLog (Sh*tty Logging)
 
->! NOTE
+> [!NOTE]
 > SLog is currently working on *Nix systems (Linux, macOS).
 
 **SLog** is a minimal C logging library with color-coded output, multiple
@@ -52,6 +52,8 @@ int main() {
     return 0;
 }
 ```
+
+More examples can be found [here](./examples/).
 
 ## API Reference
 For detailed information about the API, see [API.md](./docs/API.md).
