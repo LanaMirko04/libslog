@@ -3,7 +3,7 @@
  * \date            2025-11-17
  * \author          Mirko Lana [lana.mirko@icloud.com]
  *
- * \brief           SLog library demo: File logging example.
+ * \brief           SLog library demo: Console and file logging example.
  */
 
 #include <stdio.h>
