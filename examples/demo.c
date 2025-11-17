@@ -57,6 +57,7 @@ int main(int argc, char *argv[]) {
     FILE *file = fopen(argv[1], "a");
     if (!file) {
         SLOG_ERROR("Unable to open the file: %s", strerror(errno));
+        return EXIT_FAILURE;
     }
     SLOG_INFO("File opened correctly!");
 
