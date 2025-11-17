@@ -1,0 +1,202 @@
+.TH "src/slog.c" 3 "Version v2.0.0" "SLog - Sh*tty Logging" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/slog.c \- SLog (Sh*tty Logging) library\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'slog\&.h'\fP
+.br
+\fR#include <stdio\&.h>\fP
+.br
+\fR#include <string\&.h>\fP
+.br
+\fR#include <stdarg\&.h>\fP
+.br
+\fR#include <stdbool\&.h>\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBSlogHandler\fP"
+.br
+.RI "Internal SLog handler structure\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "enum \fBSlogReturnCode\fP \fBint_slog_default_write\fP (const void *ctx, const char *fmt,\&.\&.\&.)"
+.br
+.RI "Default write function\&. "
+.ti -1c
+.RI "enum \fBSlogReturnCode\fP \fBint_slog_default_flush\fP (const void *ctx)"
+.br
+.RI "Default (dummy) flush function\&. "
+.ti -1c
+.RI "enum \fBSlogReturnCode\fP \fBint_slog_emit\fP (const struct \fBSlogger\fP *logger, enum \fBSlogLevel\fP lv, const char *fmt,\&.\&.\&.)"
+.br
+.RI "Emit a log message using the default logger\&. "
+.ti -1c
+.RI "void \fBslog_init\fP (const struct \fBSlogConfig\fP *cfg)"
+.br
+.RI "Initialize the SLog logging system\&. "
+.ti -1c
+.RI "enum \fBSlogReturnCode\fP \fBslog_set_default_logger\fP (const struct \fBSlogger\fP *logger, struct \fBSlogger\fP *old_logger)"
+.br
+.RI "Set the default logger for the logging system\&. "
+.ti -1c
+.RI "const struct \fBSlogger\fP * \fBslog_get_default_logger\fP (void)"
+.br
+.RI "Get the current default logger for the logging system\&. "
+.ti -1c
+.RI "enum \fBSlogLevel\fP \fBslog_get_emit_level\fP (void)"
+.br
+.RI "Get the current log emit level\&. "
+.ti -1c
+.RI "const char * \fBslog_level_to_str\fP (enum \fBSlogLevel\fP lv)"
+.br
+.RI "Convert \fBSlogLevel\fP enum to string representation\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+SLog (Sh*tty Logging) library\&. 
+
+
+.PP
+\fBDate\fP
+.RS 4
+2023-05-30 
+.RE
+.PP
+\fBAuthor\fP
+.RS 4
+Mirko Lana [lana.mirko@icloud.com] 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "enum \fBSlogReturnCode\fP int_slog_default_flush (const void * ctx)"
+
+.PP
+Default (dummy) flush function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIctx\fP User-defined context pointer\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK every time\&. 
+.RE
+.PP
+
+.SS "enum \fBSlogReturnCode\fP int_slog_default_write (const void * ctx, const char * fmt,  \&.\&.\&.)"
+
+.PP
+Default write function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIctx\fP User-defined context pointer\&. 
+.br
+\fIfmt\fP Format string\&. 
+.br
+\fI\&.\&.\&.\fP Variable arguments\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK on success, otherwise an error code\&. 
+.RE
+.PP
+
+.SS "enum \fBSlogReturnCode\fP int_slog_emit (const struct \fBSlogger\fP * logger, enum \fBSlogLevel\fP level, const char * fmt,  \&.\&.\&.)"
+
+.PP
+Emit a log message using the default logger\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIlevel\fP Log level of the message\&. 
+.br
+\fIfmt\fP Format string\&. 
+.br
+\fI\&.\&.\&.\fP Variable arguments\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK on success, otherwise an error code\&. 
+.RE
+.PP
+
+.SS "const struct \fBSlogger\fP * slog_get_default_logger (void )"
+
+.PP
+Get the current default logger for the logging system\&. 
+.PP
+\fBReturns\fP
+.RS 4
+Pointer to the current default \fBSlogger\fP\&. 
+.RE
+.PP
+
+.SS "enum \fBSlogLevel\fP slog_get_emit_level (void )"
+
+.PP
+Get the current log emit level\&. 
+.PP
+\fBReturns\fP
+.RS 4
+Current log emit level as an enum \fBSlogLevel\fP\&.
+.RE
+.PP
+\fBNote\fP
+.RS 4
+This level is the last level set by the SLOG_EMIT macro\&. 
+.RE
+.PP
+
+.SS "void slog_init (const struct \fBSlogConfig\fP * cfg)"
+
+.PP
+Initialize the SLog logging system\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIcfg\fP Pointer to the \fBSlogConfig\fP structure\&. 
+.RE
+.PP
+
+.SS "const char * slog_level_to_str (enum \fBSlogLevel\fP lv)"
+
+.PP
+Convert \fBSlogLevel\fP enum to string representation\&. SLOG_DISABLE_LOGGING_SYSTEM 
+.SS "enum \fBSlogReturnCode\fP slog_set_default_logger (const struct \fBSlogger\fP * logger, struct \fBSlogger\fP * old_logger)"
+
+.PP
+Set the default logger for the logging system\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIlogger\fP Pointer to the \fBSlogger\fP to set as default\&. 
+.br
+\fIold_logger\fP Pointer to store the previous default logger (can be NULL)\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK on success, or an error code on failure\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLog - Sh*tty Logging from the source code\&.

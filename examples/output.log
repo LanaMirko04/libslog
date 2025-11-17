@@ -1,0 +1,4 @@
+2025-11-17 02:11:32 [INFO] file-logging.c:69 -> This is an informational message logged to a file.
+2025-11-17 02:11:32 [ERROR] file-logging.c:70 -> This is an error message logged to a file.
+2025-11-17 02:11:32 [WARN] file-logging.c:71 -> This is a warning message logged to a file.
+2025-11-17 02:11:32 [DEBUG] file-logging.c:72 -> This is a debug message logged to a file.

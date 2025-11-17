@@ -1,0 +1,49 @@
+.TH "Slogger" 3 "Version v2.0.0" "SLog - Sh*tty Logging" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Slogger \- The SLog logger structure\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <slog\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "enum \fBSlogReturnCode\fP(* \fBwrite_fn\fP )(const void *\fBctx\fP, const char *fmt,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "enum \fBSlogReturnCode\fP(* \fBflush_fn\fP )(const void *\fBctx\fP)"
+.br
+.ti -1c
+.RI "void * \fBctx\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBlv\fP"
+.br
+.ti -1c
+.RI "bool \fBapply_colors\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The SLog logger structure\&. 
+.SH "Field Documentation"
+.PP 
+.SS "bool Slogger::apply_colors"
+Flag to apply colors to the log messages\&. 
+.SS "void* Slogger::ctx"
+User-defined context pointer\&. 
+.SS "enum \fBSlogReturnCode\fP(* Slogger::flush_fn) (const void *\fBctx\fP)"
+Flush function pointer\&. 
+.SS "uint8_t Slogger::lv"
+Log level for this logger\&. 
+.SS "enum \fBSlogReturnCode\fP(* Slogger::write_fn) (const void *\fBctx\fP, const char *fmt,\&.\&.\&.)"
+Write function pointer\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLog - Sh*tty Logging from the source code\&.

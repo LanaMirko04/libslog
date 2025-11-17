@@ -1,0 +1,230 @@
+.TH "log_macros" 3 "Version v2.0.0" "SLog - Sh*tty Logging" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+log_macros \- Logging macros\&.
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBSlogger\fP"
+.br
+.RI "The SLog logger structure\&. "
+.ti -1c
+.RI "struct \fBSlogConfig\fP"
+.br
+.RI "Configuration structure for initializing the SLog system\&. "
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSLOG_EMIT\fP(logger,  lv,  fmt, \&.\&.\&.)"
+.br
+.RI "Emit a log message using the specified logger\&. "
+.ti -1c
+.RI "#define \fBSLOG_INFO\fP(fmt, \&.\&.\&.)"
+.br
+.RI "Emit an informational log message\&. "
+.ti -1c
+.RI "#define \fBSLOG_ERROR\fP(fmt, \&.\&.\&.)"
+.br
+.RI "Emit an error log message\&. "
+.ti -1c
+.RI "#define \fBSLOG_WARN\fP(fmt, \&.\&.\&.)"
+.br
+.RI "Emit a warning log message\&. "
+.ti -1c
+.RI "#define \fBSLOG_DEBUG\fP(fmt, \&.\&.\&.)"
+.br
+.RI "Emit a debug log message\&. "
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBSlogReturnCode\fP { \fBSLOG_RC_FAIL\fP = -1, \fBSLOG_RC_OK\fP, \fBSLOG_RC_INVALID_ARG\fP, \fBSLOG_RC_IO_ERR\fP }"
+.br
+.RI "Enumeration containing all possible return codes\&. "
+.ti -1c
+.RI "enum \fBSlogLevel\fP { \fBSLOG_LEVEL_NONE\fP = 0x00, \fBSLOG_LEVEL_INFO\fP = 0x01, \fBSLOG_LEVEL_ERROR\fP = 0x02, \fBSLOG_LEVEL_WARN\fP = 0x04, \fBSLOG_LEVEL_DEBUG\fP = 0x08, \fBSLOG_LEVEL_ALL\fP = 0x0F }"
+.br
+.RI "Enumeration representing different log levels\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define SLOG_DEBUG( fmt,  \&.\&.\&.)"
+\fBValue:\fP
+.nf
+    SLOG_EMIT(slog_get_default_logger(), SLOG_LEVEL_DEBUG, fmt, ##__VA_ARGS__)
+.PP
+.fi
+
+.PP
+Emit a debug log message\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfmt\fP Format string\&. 
+.br
+\fI\&.\&.\&.\fP Variable arguments\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK on success, otherwise an error code\&. 
+.RE
+.PP
+
+.SS "#define SLOG_EMIT( logger,  lv,  fmt,  \&.\&.\&.)"
+\fBValue:\fP
+.nf
+    int_slog_emit((logger), (lv), " %s:%d \-> " fmt "\\n", __FILE__, __LINE__, ##__VA_ARGS__)
+.PP
+.fi
+
+.PP
+Emit a log message using the specified logger\&. __cplusplus
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIlogger\fP Pointer to the \fBSlogger\fP to use\&. 
+.br
+\fIlv\fP Log level of the message\&. 
+.br
+\fIfmt\fP Format string\&. 
+.br
+\fI\&.\&.\&.\fP Variable arguments\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK on success, otherwise an error code\&. 
+.RE
+.PP
+
+.SS "#define SLOG_ERROR( fmt,  \&.\&.\&.)"
+\fBValue:\fP
+.nf
+    SLOG_EMIT(slog_get_default_logger(), SLOG_LEVEL_ERROR, fmt, ##__VA_ARGS__)
+.PP
+.fi
+
+.PP
+Emit an error log message\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfmt\fP Format string\&. 
+.br
+\fI\&.\&.\&.\fP Variable arguments\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK on success, otherwise an error code\&. 
+.RE
+.PP
+
+.SS "#define SLOG_INFO( fmt,  \&.\&.\&.)"
+\fBValue:\fP
+.nf
+    SLOG_EMIT(slog_get_default_logger(), SLOG_LEVEL_INFO, fmt, ##__VA_ARGS__)
+.PP
+.fi
+
+.PP
+Emit an informational log message\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfmt\fP Format string\&. 
+.br
+\fI\&.\&.\&.\fP Variable arguments\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK on success, otherwise an error code\&. 
+.RE
+.PP
+
+.SS "#define SLOG_WARN( fmt,  \&.\&.\&.)"
+\fBValue:\fP
+.nf
+    SLOG_EMIT(slog_get_default_logger(), SLOG_LEVEL_WARN, fmt, ##__VA_ARGS__)
+.PP
+.fi
+
+.PP
+Emit a warning log message\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfmt\fP Format string\&. 
+.br
+\fI\&.\&.\&.\fP Variable arguments\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+SLOG_RC_OK on success, otherwise an error code\&. 
+.RE
+.PP
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBSlogLevel\fP"
+
+.PP
+Enumeration representing different log levels\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\f(BISLOG_LEVEL_NONE \fP
+No logging messages\&. 
+.TP
+\f(BISLOG_LEVEL_INFO \fP
+Informational messages\&. 
+.TP
+\f(BISLOG_LEVEL_ERROR \fP
+Error messages\&. 
+.TP
+\f(BISLOG_LEVEL_WARN \fP
+Warning messages\&. 
+.TP
+\f(BISLOG_LEVEL_DEBUG \fP
+Debugging messages\&. 
+.TP
+\f(BISLOG_LEVEL_ALL \fP
+All messages\&. 
+.SS "enum \fBSlogReturnCode\fP"
+
+.PP
+Enumeration containing all possible return codes\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\f(BISLOG_RC_FAIL \fP
+An error occurred\&. 
+.TP
+\f(BISLOG_RC_OK \fP
+Everything is fine\&. 
+.TP
+\f(BISLOG_RC_INVALID_ARG \fP
+Invalid argument\&. 
+.TP
+\f(BISLOG_RC_IO_ERR \fP
+I/O error occurred\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLog - Sh*tty Logging from the source code\&.
