@@ -129,7 +129,10 @@ enum SlogReturnCode int_slog_emit(const struct Slogger *logger, enum SlogLevel l
         return ret;
     }
 
-    ret = logger->flush_fn(logger->ctx);
+    if (logger->flush_fn) {
+        ret = logger->flush_fn(logger->ctx);
+    }
+
     slog.exit_cs();
 
     return ret;
