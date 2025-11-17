@@ -168,5 +168,9 @@ enum SlogLevel slog_get_emit_level(void) {
 #endif /*! SLOG_DISABLE_LOGGING_SYSTEM */
 
 const char *slog_level_to_string(enum SlogLevel lv) {
-    return !lv ? "" : SLOG_LEVEL_STRINGS[__builtin_ctz(lv)];
+    if (!lv)
+        return "";
+
+    int idx = __builtin_ctz(lv);
+    return idx >= __builtin_ctz(SLOG_LEVEL_ALL) ? "" : SLOG_LEVEL_STRINGS[idx];
 }
