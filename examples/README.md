@@ -5,8 +5,8 @@ This directory contains simple examples demonstrating the usage of SLog.
 To compile and run an example, use the following commands:
 
 ```sh
-$ gcc <example_name.c> -o <example_name> -lslog
-$ ./<example_name> <args>
+$ gcc <example-name.c> -o <example-name> -lslog
+$ ./<example-name> <args>
 ```
 
 ### Demo
@@ -21,24 +21,24 @@ $ ./demo demo.log
 To run the basic example:
 
 ```sh
-$ gcc basic_example.c -o basic_example -lslog
-$ ./basic_example basic_log.log
+$ gcc basic-usage.c -o basic-usage -lslog
+$ ./basic-usage
 ```
 
 ### File Logging Example
 To run the file logging example:
 
 ```sh
-$ gcc file_logging_example.c -o file_logging_example -lslog
-$ ./file_logging_example file_log.log
+$ gcc file-logging.c -o file-logging -lslog
+$ ./file-logging
 ```
 
 ### Multi-threaded Example (*Nix only)
 To run the multi-threaded example:
 
 ```sh
-$ gcc multi_threaded_example.c -o multi_threaded_example -lslog -lpthread
-$ ./multi_threaded_example mt_log.log
+$ gcc multi-thread.c -o multi-thread -lslog -lpthread
+$ ./multi-thread
 ```
 
 ## Notes
@@ -46,5 +46,5 @@ If you have not installed the SLog library, specify the path to the library
 using the -L option:
 
 ```sh
-$ gcc <example_name.c> -o <example_name> -L/path/to/libslog.a -lslog
+$ gcc <example-name.c> -o <example-name> -L/path/to/libslog.a -lslog
 ```
