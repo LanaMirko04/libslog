@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -std=gnu11 -Wall -Wextra -Werror -pedantic -O2 -MMD -MP -Iinclude
+CFLAGS := -std=gnu11 -Wall -Wextra -Werror -pedantic -O2 -MMD -MP -Iinclude -D_POSIX_C_SOURCE=200809L
 LDFLAGS :=
 
 SRC_DIR := src

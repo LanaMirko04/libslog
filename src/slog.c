@@ -37,9 +37,6 @@ static const char *SLOG_LEVEL_STRINGS[] = {
 
 static struct SlogHandler slog; /*!< Internal SLog handler instance. */
 
-/*! Check if logging has to be disabled or not (functions become no-ops) */
-#ifndef SLOG_DISABLE_LOGGING_SYSTEM
-
 /*!
  * \brief           Dummy critical section function.
  */
@@ -167,13 +164,15 @@ enum SlogLevel slog_get_emit_level(void) {
     return slog.emit_level;
 }
 
-#endif /*! SLOG_DISABLE_LOGGING_SYSTEM */
-
 const char *slog_level_to_str(enum SlogLevel lv) {
     if (!lv) {
         return "";
     }
 
     int idx = __builtin_ctz(lv);
-    return idx >= __builtin_ctz(SLOG_LEVEL_ALL) ? "" : SLOG_LEVEL_STRINGS[idx];
+    if (idx >= __builtin_ctz(SLOG_LEVEL_ALL)) {
+        return "";
+    }
+
+    return SLOG_LEVEL_STRINGS[idx];
 }
