@@ -103,8 +103,6 @@ struct SlogConfig {
 extern "C" {
 #endif /*! __cplusplus */
 
-#ifndef SLOG_DISABLE_LOGGING_SYSTEM
-
 /*!
  * \brief           Emit a log message using the specified logger.
  *
@@ -220,22 +218,6 @@ const struct Slogger *slog_get_default_logger(void);
  * \note            This level is the last level set by the SLOG_EMIT macro.
  */
 enum SlogLevel slog_get_emit_level(void);
-
-#else /*! SLOG_DISABLE_LOGGING_SYSTEM */
-
-#define SLOG_INFO(fmt, ...) (SLOG_RC_OK)
-#define SLOG_ERROR(fmt, ...) (SLOG_RC_OK)
-#define SLOG_WARN(fmt, ...) (SLOG_RC_OK)
-#define SLOG_DEBUG(fmt, ...) (SLOG_RC_OK)
-#define SLOG_EMIT(logger, lv, fmt, ...) (SLOG_RC_OK)
-#define int_slog_default_write(ctx, fmt, ...) (SLOG_RC_OK)
-#define int_slog_default_flush(ctx) (SLOG_RC_OK)
-#define int_slog_emit(logger, level, fmt, ...) (SLOG_RC_OK)
-#define slog_set_default_logger(logger, old_logger) (SLOG_RC_OK)
-#define slog_get_default_logger() (NULL)
-#define slog_get_emit_level() (SLOG_LEVEL_NONE)
-
-#endif /*! SLOG_DISABLE_LOGGING_SYSTEM */
 
 /*!
  * \brief           Convert SlogLevel enum to string representation.
