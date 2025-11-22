@@ -170,7 +170,7 @@ const char *slog_level_to_str(enum SlogLevel lv) {
     }
 
     int idx = __builtin_ctz(lv);
-    if (idx >= __builtin_ctz(SLOG_LEVEL_ALL)) {
+    if (idx <= 0 || idx >= __builtin_ctz(SLOG_LEVEL_ALL)) {
         return "";
     }
 
